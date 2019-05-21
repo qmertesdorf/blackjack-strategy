@@ -1,5 +1,6 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Card from "./Card";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         >
           Learn React
         </a>
+        <Card />
       </header>
     </div>
   );
