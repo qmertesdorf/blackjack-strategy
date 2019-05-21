@@ -1,5 +1,33 @@
 .card {
   height: 300px;
   width: 200px;
-  color: white;
+  background-color: white;
+  border-radius: 6px;
+  position: relative;
+  .card-value {
+    color: black;
+    position: absolute;
+    margin: 0;
+    &.top-left {
+      left: 4%;
+      top: 2%;
+    }
+    &.bottom-right {
+      right: 4%;
+      bottom: 2%
+
+    }
+  }
+  .suit-icon-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .suit-icon {
+    font-size: 80px;
+    color: black;
+  }
 }
