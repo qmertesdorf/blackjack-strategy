@@ -1,23 +1,16 @@
 import React from "react";
 import "./App.css";
 import Card from "./Card";
+import PlayerHand from "./PlayerHand";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Card {...{ suit: "clubs" }} />
+        {/* <Card {...{ suitId: 0, value: 4 }} />
+        <hr></hr>
+        <Card {...{ suitId: 2, value: 5 }} /> */}
+        <PlayerHand />
       </header>
     </div>
   );

@@ -6,11 +6,11 @@ const Card = ({ suitId, value }) => {
   const suitIcon = getIconBySuitId(suitId)
   return (
     <div className="card">
-      <p className="card-value top-left">10</p>
+      <p className="card-value top-left">{value}</p>
       <div className="suit-icon-container">
         <i className="suit-icon">{suitIcon}</i>
       </div>
-      <p className="card-value bottom-right">10</p>
+      <p className="card-value bottom-right">{value}</p>
     </div>
   );
 };
@@ -20,10 +20,10 @@ function getIconBySuitId(id) {
     return "♣";
   };
   if (id === SUITS.DIAMONDS) {
-    return "♢";
+    return "♦";
   };
   if (id === SUITS.HEARTS) {
-    return "♡";
+    return "♥";
   };
   if (id === SUITS.SPADES) {
     return "♠";
