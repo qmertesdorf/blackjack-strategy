@@ -6,9 +6,7 @@ import Card from "./Card";
 const PlayerHand = () => {
   const cardOneData = generateCardData();
   const cardTwoData = generateCardData();
-
   
-
   return (
     <div className="player-hand">
       <Card {...cardOneData} />
@@ -33,7 +31,6 @@ function generateCardData() {
 function getCorrectAnswerFromCardData(cardOne, cardTwo) {
   const cardOneValue = cardOne.value;
   const cardTwoValue = cardTwo.value;
-
 
 }
 
