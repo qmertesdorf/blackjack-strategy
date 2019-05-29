@@ -17,7 +17,7 @@ class GameBoard extends React.Component {
     };
   }
   render() {
-    const questionSet = determineQuestionSetFromCardData(this.state.cardOneData, this.state.cardTwoData);
+    
 
     const correctAnswer = determineCorrectAnswer(
       this.state.cardOneData,
@@ -25,7 +25,8 @@ class GameBoard extends React.Component {
       this.state.dealerCard,
       questionSet
     );
-    console.log(this.state.cardOneData);
+
+
     return (
       <div className="gameboard">
         <DealerHand {...{ cardData: this.state.dealerCard }} />
@@ -33,6 +34,7 @@ class GameBoard extends React.Component {
           cardOneData: this.state.cardOneData,
           cardTwoData: this.state.cardTwoData
         }} />
+       <QuestionSet /> 
       </div>
     );
   }
