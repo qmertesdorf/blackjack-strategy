@@ -1,44 +1,37 @@
 import React from "react";
 import {
-  generateCardData,
+  generateCard,
   determineQuestionSetFromCardData,
   determineCorrectAnswer
 } from "./gameplayFunctions";
 import DealerHand from "./DealerHand";
 import PlayerHand from "./PlayerHand";
 
-class GameBoard extends React.Component {
+export class GameBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardOneData: generateCardData(),
-      cardTwoData: generateCardData(),
-      dealerCard: generateCardData()
+      cardOne: generateCard(),
+      cardTwo: generateCard(),
+      dealerCard: generateCard()
     };
-  }
+  };
   render() {
-    
-
     const correctAnswer = determineCorrectAnswer(
-      this.state.cardOneData,
-      this.state.cardTwoData,
+      this.state.cardOne,
+      this.state.cardTwo,
       this.state.dealerCard,
-      questionSet
+      // questionSet
     );
-
-
     return (
-      <div className="gameboard">
-        <DealerHand {...{ cardData: this.state.dealerCard }} />
+      <div className="game-board">
+        <DealerHand {...{ card: this.state.dealerCard }} />
         <PlayerHand {...{
-          cardOneData: this.state.cardOneData,
-          cardTwoData: this.state.cardTwoData
+          cardOne: this.state.cardOne,
+          cardTwo: this.state.cardTwo
         }} />
-       <QuestionSet /> 
+       {/* <QuestionSet /> */}
       </div>
     );
-  }
-}
-
-
-export default GameBoard;
+  };
+};

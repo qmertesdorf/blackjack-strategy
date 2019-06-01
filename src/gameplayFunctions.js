@@ -1,6 +1,7 @@
 import { SUITS, VALUES, SPLITTING, CHOICES } from "./constants";
 
-export function generateCardData() {
+export function generateCard() {
+  //use actually data, not the values of anything;
   const suitId = Object.values(SUITS)[
     Math.floor(Math.random() * Object.values(SUITS).length)
   ];
@@ -139,6 +140,9 @@ function determineCorrectNonSplittingAnswer(cardOne, cardTwo, dealerCard) {
   }
   if (cardTwo === VALUES.A) {
     return determineCorrectSoftTotalAnswer(cardOne, dealerCard);
+  }
+  else {
+    return determineCorrectHardTotalAnswer(cardOne, cardTwo, dealerCard);
   }
 }
 

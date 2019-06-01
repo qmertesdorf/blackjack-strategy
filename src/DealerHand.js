@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from 'react';
 import Card from "./Card";
 
-function DealerHand({cardData}) {
-  console.log("DealerHand is", cardData)
+export function DealerHand(props) {
+  const { cardData } = props;
   return (
     <div>
       {/* TODO - vvv Update "unknown" card information */}
@@ -20,7 +20,4 @@ function DealerHand({cardData}) {
       />
     </div>
   );
-}
-
-
-export default DealerHand;
+};
