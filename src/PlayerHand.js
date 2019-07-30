@@ -2,22 +2,22 @@ import React from "react";
 import "./playerHand.scss";
 import Card from "./Card";
 
-const PlayerHand = ({cardOneData, cardTwoData}) => {
-  console.log("PlayerHand is", cardOneData, cardTwoData)
+const PlayerHand = ({cardOne, cardTwo}) => {
+  console.log("PlayerHand is", cardOne, cardTwo)
   // const questionAnswer;
 
   return (
-    <div className="player-hand">
+    <div className="hand player-hand">
       <Card
         {...{
-          suitId: cardOneData.suitId,
-          value: cardOneData.value.cardValKey
+          suitId: cardOne.suitId,
+          value: cardOne.value.cardValKey
         }}
       />
       <Card
         {...{
-          suitId: cardTwoData.suitId,
-          value: cardTwoData.value.cardValKey
+          suitId: cardTwo.suitId,
+          value: cardTwo.value.cardValKey
         }}
       />
     </div>

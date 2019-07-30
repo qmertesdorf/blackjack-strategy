@@ -1,8 +1,6 @@
 import React from "react";
 import "./App.css";
-import Card from "./Card";
-import PlayerHand from "./PlayerHand";
-import GameBoard from "./GameBoard";
+import { GameBoard } from "./GameBoard";
 
 function App() {
   return (

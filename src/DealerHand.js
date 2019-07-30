@@ -2,22 +2,22 @@ import * as React from 'react';
 import Card from "./Card";
 
 export function DealerHand(props) {
-  const { cardData } = props;
+  const { card } = props;
   return (
     <div>
       {/* TODO - vvv Update "unknown" card information */}
       <Card
         {...{
-          suitId: cardData.suitId,
-          value: cardData.value.cardValKey
+          suitId: card.suitId,
+          value: card.value.cardValKey
         }}
       />
-      <Card
+      {/* <Card
         {...{
-          suitId: cardData.suitId,
-          value: cardData.value.cardValKey
+          suitId: card.suitId,
+          value: card.value.cardValKey
         }}
-      />
+      /> */}
     </div>
   );
 };

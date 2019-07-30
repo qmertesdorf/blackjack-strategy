@@ -5,6 +5,7 @@ export function generateCard() {
   const suitId = Object.values(SUITS)[
     Math.floor(Math.random() * Object.values(SUITS).length)
   ];
+  console.log(suitId);
   const cardValKey = Object.keys(VALUES)[
     Math.floor(Math.random() * Object.keys(VALUES).length)
   ];
@@ -16,9 +17,10 @@ export function generateCard() {
 }
 
 export function determineQuestionSetFromCardData(cardOne, cardTwo) {
-  const cardOneValue = cardOne.value.cardValValue;
-  const cardTwoValue = cardTwo.value.cardValValue;
-
+  const cardOneValue = cardOne.value.cardValKey;
+  const cardTwoValue = cardTwo.value.cardValKey;
+  
+  console.log(cardOneValue + " " + cardTwoValue);
   if (cardOneValue === cardTwoValue) {
     return SPLITTING;
   } else {
@@ -28,9 +30,12 @@ export function determineQuestionSetFromCardData(cardOne, cardTwo) {
 
 export function determineCorrectAnswer(cardOne, cardTwo, dealerCard, questionSet) {
   const ace = VALUES.A;
-  const cardOneValue = cardOne.value.cardValValue;
-  const cardTwoValue = cardTwo.value.cardValValue;
-  const dealerCardValue = dealerCard.value.cardValValue;
+  const cardOneValue = cardOne.value.cardValKey;
+  console.log(questionSet);
+  const cardTwoValue = cardTwo.value.cardValKey;
+  const dealerCardValue = dealerCard.value.cardValKey;
+  console.log("SPLITTING?", questionSet === SPLITTING)
+  console.log("CHOICES?", questionSet === CHOICES)
 
   if (questionSet === SPLITTING) {
     return determineCorrectSplittingAnswer(cardOneValue, dealerCardValue);
@@ -95,7 +100,8 @@ function determineCorrectSoftTotalAnswer(nonAce, dealerCard) {
 
 function determineCorrectHardTotalAnswer(cardOne, cardTwo, dealerCard) {
   const cardHardTotal = cardOne + cardTwo;
-  if (cardHardTotal === 17) {
+  console.log(cardHardTotal);
+  if (cardHardTotal >= 17) {
     return CHOICES.STAND;
   }
   if ([16, 15, 14, 13].includes(cardHardTotal)) {
