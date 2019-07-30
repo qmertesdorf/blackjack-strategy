@@ -1,3 +1,4 @@
+import { ScoreDisplay } from './ScoreDisplay';
 import React from "react";
 import {
   generateCard,
@@ -14,18 +15,37 @@ export class GameBoard extends React.Component {
     this.state = {
       cardOne: generateCard(),
       cardTwo: generateCard(),
-      dealerCard: generateCard()
+      dealerCard: generateCard(),
+      totalScore: 0,
+      totalQuestionCount: 0
     };
   }
+  newGame = () => {
+    this.incrementTotalQuestionCount();
+    this.setState({
+      cardOne: generateCard(),
+      cardTwo: generateCard(),
+      dealerCard: generateCard()
+    });
+  }
+
+  incrementScoreCount = () => {
+    this.setState({totalScore: this.state.totalScore + 1})
+  }
+
+  incrementTotalQuestionCount = () => {
+    this.setState({totalQuestionCount: this.state.totalQuestionCount + 1})
+  }
+
   render() {
-    console.log("cardOne is...", this.state.cardOne);
-    const correctAnswer = determineCorrectAnswer(
+    const questionSet = determineQuestionSetFromCardData(this.state.cardOne, this.state.cardTwo)
+    const correctAnswerId = determineCorrectAnswer(
       this.state.cardOne,
       this.state.cardTwo,
       this.state.dealerCard,
-      determineQuestionSetFromCardData(this.state.cardOne, this.state.cardTwo)
+      questionSet
     );
-    console.log("answer is ", correctAnswer)
+    
     return (
       <div className="game-board">
         <DealerHand {...{ card: this.state.dealerCard }} />
@@ -35,9 +55,16 @@ export class GameBoard extends React.Component {
             cardTwo: this.state.cardTwo
           }}
         />
+        <ScoreDisplay {...{
+          totalScore: this.state.totalScore,
+          totalQuestionCount: this.state.totalQuestionCount,
+        }}/>
         <QuestionSet {...{
-          cardOne: this.state.cardOne,
-          cardTwo: this.state.cardTwo
+          incrementScoreCount: this.incrementScoreCount,
+          incrementTotalQuestionCount: this.incrementTotalQuestionCount,
+          correctAnswerId: correctAnswerId,
+          questionSet: questionSet,
+          newGame: this.newGame
         }}/>
       </div>
     );

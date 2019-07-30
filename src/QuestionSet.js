@@ -1,46 +1,47 @@
 import React from "react";
-import { determineQuestionSetFromCardData } from "./gameplayFunctions";
 import { SPLITTING, CHOICES } from "./constants";
 
-export function QuestionSet({ cardOne, cardTwo }) {
-  const questionSet = determineQuestionSetFromCardData(
-    cardOne,
-    cardTwo
-  );
+export function QuestionSet({ correctAnswerId, incrementScoreCount, questionSet, newGame }) {
 
-  const QuestionsComponent = () => getComponentFromQuestionSet(questionSet)
+
+  const checkIfCorrect = (choiceId) => {
+    if (choiceId === correctAnswerId) {
+      incrementScoreCount();
+    }
+    newGame();
+  }
+
   return (
     <div className="question-set-container">
-    <QuestionsComponent/>
+      {questionSet === SPLITTING
+        && <SplittingQuestions {...{checkIfCorrect}}/>}
+      {questionSet === CHOICES
+        && <ChoicesQuestions {...{checkIfCorrect}}/>
+      }
   </div>
   )
 }
 
-function getComponentFromQuestionSet(questionSet) {
-  if (questionSet === SPLITTING) {
-    return <SplittingQuestions />;
-  } else if (questionSet === CHOICES) {
-    return <ChoicesQuestions />;
-  }
-}
 
-function SplittingQuestions() {
+
+
+function SplittingQuestions({checkIfCorrect}) {
   return (
     <ul>
-      <li>Split</li>
-      <li>Don't split</li>
-      <li>Split, but only if "Double After Split" is offered.</li>
+      <li onClick={() => checkIfCorrect(0)}>Split</li>
+      <li onClick={() => checkIfCorrect(1)}>Don't split</li>
+      <li onClick={() => checkIfCorrect(2)}>Split, but only if "Double After Split" is offered.</li>
     </ul>
   );
 };
 
-function ChoicesQuestions() {
+function ChoicesQuestions({checkIfCorrect}) {
   return (
     <ul>
-      <li>Hit</li>
-      <li>Stand</li>
-      <li>Double Down, then hit</li>
-      <li>Double Down, then stand</li>
+      <li onClick={() => checkIfCorrect(0)}>Hit</li>
+      <li onClick={() => checkIfCorrect(1)}>Stand</li>
+      <li onClick={() => checkIfCorrect(2)}>Double Down, then hit</li>
+      <li onClick={() => checkIfCorrect(3)}>Double Down, then stand</li>
     </ul>
   );
 };
