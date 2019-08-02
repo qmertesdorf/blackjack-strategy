@@ -35,36 +35,40 @@ export class GameBoard extends React.Component {
 
   incrementTotalQuestionCount = () => {
     this.setState({totalQuestionCount: this.state.totalQuestionCount + 1})
-  }
+  };
 
   render() {
-    const questionSet = determineQuestionSetFromCardData(this.state.cardOne, this.state.cardTwo)
+    const {incrementScoreCount, incrementTotalQuestionCount, newGame, state} = this;
+    const {cardOne, cardTwo, dealerCard, totalQuestionCount, totalScore} = state;
+    const questionSet = determineQuestionSetFromCardData(cardOne, cardTwo);
+
     const correctAnswerId = determineCorrectAnswer(
-      this.state.cardOne,
-      this.state.cardTwo,
-      this.state.dealerCard,
+      cardOne,
+      cardTwo,
+      dealerCard,
       questionSet
     );
     
+    
     return (
       <div className="game-board">
-        <DealerHand {...{ card: this.state.dealerCard }} />
+        <DealerHand {...{ card: dealerCard }} />
         <PlayerHand
           {...{
-            cardOne: this.state.cardOne,
-            cardTwo: this.state.cardTwo
+            cardOne: cardOne,
+            cardTwo: cardTwo
           }}
         />
         <ScoreDisplay {...{
-          totalScore: this.state.totalScore,
-          totalQuestionCount: this.state.totalQuestionCount,
+          totalScore: totalScore,
+          totalQuestionCount: totalQuestionCount,
         }}/>
         <QuestionSet {...{
-          incrementScoreCount: this.incrementScoreCount,
-          incrementTotalQuestionCount: this.incrementTotalQuestionCount,
+          incrementScoreCount: incrementScoreCount,
+          incrementTotalQuestionCount: incrementTotalQuestionCount,
           correctAnswerId: correctAnswerId,
           questionSet: questionSet,
-          newGame: this.newGame
+          newGame: newGame
         }}/>
       </div>
     );

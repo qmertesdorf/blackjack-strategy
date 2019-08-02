@@ -24,8 +24,9 @@ export function QuestionSet({ correctAnswerId, incrementScoreCount, questionSet,
 
 
 
-
+//How could this be done better?
 function SplittingQuestions({checkIfCorrect}) {
+  const choiceList = ["Split", "Don't split", 'Split, but only if "Double After Split" is offered.']
   return (
     <ul>
       <li onClick={() => checkIfCorrect(0)}>Split</li>

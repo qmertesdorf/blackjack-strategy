@@ -5,22 +5,20 @@ export function generateCard() {
   const suitId = Object.values(SUITS)[
     Math.floor(Math.random() * Object.values(SUITS).length)
   ];
-  console.log(suitId);
   const cardValKey = Object.keys(VALUES)[
     Math.floor(Math.random() * Object.keys(VALUES).length)
   ];
-  const cardValValue = VALUES[cardValKey];
+  const cardValue = VALUES[cardValKey];
   return {
     suitId: suitId,
-    value: { cardValKey: cardValValue }
+    value: cardValue
   };
 }
 
 export function determineQuestionSetFromCardData(cardOne, cardTwo) {
-  const cardOneValue = cardOne.value.cardValKey;
-  const cardTwoValue = cardTwo.value.cardValKey;
+  const cardOneValue = cardOne.value;
+  const cardTwoValue = cardTwo.value;
   
-  console.log(cardOneValue + " " + cardTwoValue);
   if (cardOneValue === cardTwoValue) {
     return SPLITTING;
   } else {
@@ -29,13 +27,9 @@ export function determineQuestionSetFromCardData(cardOne, cardTwo) {
 }
 
 export function determineCorrectAnswer(cardOne, cardTwo, dealerCard, questionSet) {
-  const ace = VALUES.A;
-  const cardOneValue = cardOne.value.cardValKey;
-  console.log(questionSet);
-  const cardTwoValue = cardTwo.value.cardValKey;
-  const dealerCardValue = dealerCard.value.cardValKey;
-  console.log("SPLITTING?", questionSet === SPLITTING)
-  console.log("CHOICES?", questionSet === CHOICES)
+  const cardOneValue = cardOne.value;
+  const cardTwoValue = cardTwo.value;
+  const dealerCardValue = dealerCard.value;
 
   if (questionSet === SPLITTING) {
     return determineCorrectSplittingAnswer(cardOneValue, dealerCardValue);
@@ -56,7 +50,7 @@ export function determineCorrectAnswer(cardOne, cardTwo, dealerCard, questionSet
 // }
 
 function determineCorrectSoftTotalAnswer(nonAce, dealerCard) {
-  if (nonAce === 9) {
+  if (nonAce === 9 || nonAce === 10) {
     return CHOICES.STAND;
   }
   if (nonAce === 8) {
@@ -135,7 +129,7 @@ function determineCorrectHardTotalAnswer(cardOne, cardTwo, dealerCard) {
       return CHOICES.HIT;
     }
   }
-  if (cardHardTotal === 8) {
+  if (cardHardTotal <= 8) {
     return CHOICES.HIT;
   }
 }

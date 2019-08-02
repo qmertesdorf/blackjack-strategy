@@ -9,13 +9,13 @@ export function DealerHand(props) {
       <Card
         {...{
           suitId: card.suitId,
-          value: card.value.cardValKey
+          value: card.value
         }}
       />
       {/* <Card
         {...{
           suitId: card.suitId,
-          value: card.value.cardValKey
+          value: card.value
         }}
       /> */}
     </div>

@@ -11,13 +11,13 @@ const PlayerHand = ({cardOne, cardTwo}) => {
       <Card
         {...{
           suitId: cardOne.suitId,
-          value: cardOne.value.cardValKey
+          value: cardOne.value
         }}
       />
       <Card
         {...{
           suitId: cardTwo.suitId,
-          value: cardTwo.value.cardValKey
+          value: cardTwo.value
         }}
       />
     </div>
