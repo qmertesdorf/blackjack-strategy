@@ -1,13 +1,13 @@
-import { ScoreDisplay } from './ScoreDisplay';
+import { ScoreDisplay } from "./ScoreDisplay";
 import React from "react";
 import {
   generateCard,
-  determineQuestionSetFromCardData,
+  determineQuestionTypeFromCardData,
   determineCorrectAnswer
 } from "./gameplayFunctions";
 import { DealerHand } from "./DealerHand";
 import PlayerHand from "./PlayerHand";
-import { QuestionSet } from "./QuestionSet";
+import { QuestionType } from "./QuestionType";
 
 export class GameBoard extends React.Component {
   constructor(props) {
@@ -20,56 +20,82 @@ export class GameBoard extends React.Component {
       totalQuestionCount: 0
     };
   }
-  newGame = () => {
+  newHand = () => {
     this.incrementTotalQuestionCount();
     this.setState({
       cardOne: generateCard(),
       cardTwo: generateCard(),
       dealerCard: generateCard()
     });
-  }
-
-  incrementScoreCount = () => {
-    this.setState({totalScore: this.state.totalScore + 1})
-  }
-
-  incrementTotalQuestionCount = () => {
-    this.setState({totalQuestionCount: this.state.totalQuestionCount + 1})
   };
 
-  render() {
-    const {incrementScoreCount, incrementTotalQuestionCount, newGame, state} = this;
-    const {cardOne, cardTwo, dealerCard, totalQuestionCount, totalScore} = state;
-    const questionSet = determineQuestionSetFromCardData(cardOne, cardTwo);
-
+  checkIfCorrect = choiceId => {
+    const { cardOne, cardTwo, dealerCard } = this.state;
+    const questionType = determineQuestionTypeFromCardData(cardOne, cardTwo);
     const correctAnswerId = determineCorrectAnswer(
       cardOne,
       cardTwo,
       dealerCard,
-      questionSet
+      questionType
     );
-    
-    
+    if (choiceId === correctAnswerId) {
+      this.incrementScoreCount();
+    }
+    this.newHand();
+  };
+
+  incrementScoreCount = () => {
+    this.setState({ totalScore: this.state.totalScore + 1 });
+  };
+  //way to do state updates based on previous state (since state updates are always asyc)
+  incrementTotalQuestionCount = () => {
+    this.setState((prevState) => ({
+      totalQuestionCount: prevState.totalQuestionCount + 1,
+      //totalScore: prevState.totalScore + 1
+    }));
+  };
+  //setState takes a second argument, which is a callback function (not typically used, probably don't use)
+
+  render() {
+    const {
+      incrementScoreCount,
+      incrementTotalQuestionCount,
+      newHand,
+      checkIfCorrect,
+      state
+    } = this;
+    const {
+      cardOne,
+      cardTwo,
+      dealerCard,
+      totalQuestionCount,
+      totalScore
+    } = state;
+    const questionType = determineQuestionTypeFromCardData(cardOne, cardTwo);
     return (
       <div className="game-board">
         <DealerHand {...{ card: dealerCard }} />
         <PlayerHand
           {...{
-            cardOne: cardOne,
-            cardTwo: cardTwo
+            cardOne,
+            cardTwo
           }}
         />
-        <ScoreDisplay {...{
-          totalScore: totalScore,
-          totalQuestionCount: totalQuestionCount,
-        }}/>
-        <QuestionSet {...{
-          incrementScoreCount: incrementScoreCount,
-          incrementTotalQuestionCount: incrementTotalQuestionCount,
-          correctAnswerId: correctAnswerId,
-          questionSet: questionSet,
-          newGame: newGame
-        }}/>
+        <ScoreDisplay
+          {...{
+            totalScore,
+            totalQuestionCount
+          }}
+        />
+        <QuestionType
+          {...{
+            incrementScoreCount,
+            incrementTotalQuestionCount,
+            questionType,
+            checkIfCorrect,
+            newHand
+          }}
+        />
       </div>
     );
   }

@@ -1,39 +1,38 @@
 import { SUITS, VALUES, SPLITTING, CHOICES } from "./constants";
+import { getRandomObjectValue } from "./utils";
 
 export function generateCard() {
-  //use actually data, not the values of anything;
-  const suitId = Object.values(SUITS)[
-    Math.floor(Math.random() * Object.values(SUITS).length)
-  ];
-  const cardValKey = Object.keys(VALUES)[
-    Math.floor(Math.random() * Object.keys(VALUES).length)
-  ];
-  const cardValue = VALUES[cardValKey];
+  //extract out random object value grabber
+  const suitId = getRandomObjectValue(SUITS);
+  const value = getRandomObjectValue(VALUES);
+
   return {
-    suitId: suitId,
-    value: cardValue
+    suitId,
+    value
   };
 }
 
-export function determineQuestionSetFromCardData(cardOne, cardTwo) {
-  const cardOneValue = cardOne.value;
-  const cardTwoValue = cardTwo.value;
-  
-  if (cardOneValue === cardTwoValue) {
+export function determineQuestionTypeFromCardData(cardOne, cardTwo) {
+  if (cardOne.value === cardTwo.value) {
     return SPLITTING;
   } else {
     return CHOICES;
   }
 }
 
-export function determineCorrectAnswer(cardOne, cardTwo, dealerCard, questionSet) {
+export function determineCorrectAnswer(
+  cardOne,
+  cardTwo,
+  dealerCard,
+  questionType
+) {
   const cardOneValue = cardOne.value;
   const cardTwoValue = cardTwo.value;
   const dealerCardValue = dealerCard.value;
 
-  if (questionSet === SPLITTING) {
+  if (questionType === SPLITTING) {
     return determineCorrectSplittingAnswer(cardOneValue, dealerCardValue);
-  } else if (questionSet === CHOICES) {
+  } else if (questionType === CHOICES) {
     return determineCorrectNonSplittingAnswer(
       cardOneValue,
       cardTwoValue,
@@ -42,15 +41,8 @@ export function determineCorrectAnswer(cardOne, cardTwo, dealerCard, questionSet
   }
 }
 
-// export const CHOICES = {
-//   HIT: 0,
-//   STAND: 1,
-//   DOUBLE_HIT: 2,
-//   DOUBLE_STAND: 3
-// }
-
 function determineCorrectSoftTotalAnswer(nonAce, dealerCard) {
-  if (nonAce === 9 || nonAce === 10) {
+  if (nonAce === 10 || nonAce === 9) {
     return CHOICES.STAND;
   }
   if (nonAce === 8) {
@@ -94,7 +86,6 @@ function determineCorrectSoftTotalAnswer(nonAce, dealerCard) {
 
 function determineCorrectHardTotalAnswer(cardOne, cardTwo, dealerCard) {
   const cardHardTotal = cardOne + cardTwo;
-  console.log(cardHardTotal);
   if (cardHardTotal >= 17) {
     return CHOICES.STAND;
   }
@@ -140,8 +131,7 @@ function determineCorrectNonSplittingAnswer(cardOne, cardTwo, dealerCard) {
   }
   if (cardTwo === VALUES.A) {
     return determineCorrectSoftTotalAnswer(cardOne, dealerCard);
-  }
-  else {
+  } else {
     return determineCorrectHardTotalAnswer(cardOne, cardTwo, dealerCard);
   }
 }

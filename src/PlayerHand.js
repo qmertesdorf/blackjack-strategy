@@ -3,7 +3,6 @@ import "./playerHand.scss";
 import Card from "./Card";
 
 const PlayerHand = ({cardOne, cardTwo}) => {
-  console.log("PlayerHand is", cardOne, cardTwo)
   // const questionAnswer;
 
   return (
