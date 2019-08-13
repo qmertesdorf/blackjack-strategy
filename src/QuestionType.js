@@ -1,5 +1,6 @@
 import React from "react";
 import { SPLITTING, CHOICES } from "./constants";
+import "./questionType.scss";
 
 export function QuestionType({ checkIfCorrect, questionType }) {
   return (
@@ -20,7 +21,7 @@ function SplittingQuestions({ checkIfCorrect }) {
   //   'Split, but only if "Double After Split" is offered.'
   // ];
   return (
-    <ul>
+    <ul className="answers-list">
       <li onClick={() => checkIfCorrect(0)}>Split</li>
       <li onClick={() => checkIfCorrect(1)}>Don't split</li>
       <li onClick={() => checkIfCorrect(2)}>
@@ -32,7 +33,7 @@ function SplittingQuestions({ checkIfCorrect }) {
 
 function ChoicesQuestions({ checkIfCorrect }) {
   return (
-    <ul>
+    <ul className="answers-list">
       <li onClick={() => checkIfCorrect(0)}>Hit</li>
       <li onClick={() => checkIfCorrect(1)}>Stand</li>
       <li onClick={() => checkIfCorrect(2)}>Double Down, then hit</li>
