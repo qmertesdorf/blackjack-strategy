@@ -1,5 +1,5 @@
 import { ScoreDisplay } from "./ScoreDisplay";
-import React from "react";
+import React, { useState } from "react";
 import {
   generateCard,
   determineQuestionTypeFromCardData,
@@ -9,29 +9,24 @@ import { DealerHand } from "./DealerHand";
 import PlayerHand from "./PlayerHand";
 import { QuestionType } from "./QuestionType";
 
-export class GameBoard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cardOne: generateCard(),
-      cardTwo: generateCard(),
-      dealerCard: generateCard(),
-      totalScore: 0,
-      totalQuestionCount: 0
-    };
-  }
-  newHand = () => {
-    this.incrementTotalQuestionCount();
-    this.setState({
-      cardOne: generateCard(),
-      cardTwo: generateCard(),
-      dealerCard: generateCard()
-    });
+export function GameBoard() {
+  //Hooks implementation
+  const [cardOne, setCardOne] = useState(generateCard());
+  const [cardTwo, setCardTwo] = useState(generateCard());
+  const [dealerCard, setDealerCard] = useState(generateCard());
+  const [totalScore, setTotalScore] = useState(0);
+  const [totalQuestionCount, setTotalQuestionCount] = useState(0);
+
+  const newHand = () => {
+    setTotalQuestionCount(totalQuestionCount + 1);
+    setCardOne(generateCard());
+    setCardTwo(generateCard());
+    setDealerCard(generateCard());
   };
 
-  checkIfCorrect = choiceId => {
-    const { cardOne, cardTwo, dealerCard } = this.state;
+  const checkIfCorrect = choiceId => {
     const questionType = determineQuestionTypeFromCardData(cardOne, cardTwo);
+    //extract into another function that is more specialized - return "true" or "false"
     const correctAnswerId = determineCorrectAnswer(
       cardOne,
       cardTwo,
@@ -39,64 +34,42 @@ export class GameBoard extends React.Component {
       questionType
     );
     if (choiceId === correctAnswerId) {
-      this.incrementScoreCount();
+      setTotalScore(totalScore + 1);
     }
-    this.newHand();
+    newHand();
   };
 
-  incrementScoreCount = () => {
-    this.setState({ totalScore: this.state.totalScore + 1 });
-  };
   //way to do state updates based on previous state (since state updates are always asyc)
-  incrementTotalQuestionCount = () => {
-    this.setState((prevState) => ({
-      totalQuestionCount: prevState.totalQuestionCount + 1,
-      //totalScore: prevState.totalScore + 1
-    }));
-  };
-  //setState takes a second argument, which is a callback function (not typically used, probably don't use)
+  // incrementTotalQuestionCount = () => {
+  //   this.setState((prevState) => ({
+  //     totalQuestionCount: prevState.totalQuestionCount + 1,
+  //     //totalScore: prevState.totalScore + 1
+  //   }));
+  // };
 
-  render() {
-    const {
-      incrementScoreCount,
-      incrementTotalQuestionCount,
-      newHand,
-      checkIfCorrect,
-      state
-    } = this;
-    const {
-      cardOne,
-      cardTwo,
-      dealerCard,
-      totalQuestionCount,
-      totalScore
-    } = state;
-    const questionType = determineQuestionTypeFromCardData(cardOne, cardTwo);
-    return (
-      <div className="game-board">
-        <DealerHand {...{ card: dealerCard }} />
-        <PlayerHand
-          {...{
-            cardOne,
-            cardTwo
-          }}
-        />
-        <ScoreDisplay
-          {...{
-            totalScore,
-            totalQuestionCount
-          }}
-        />
-        <QuestionType
-          {...{
-            incrementScoreCount,
-            incrementTotalQuestionCount,
-            questionType,
-            checkIfCorrect,
-            newHand
-          }}
-        />
-      </div>
-    );
-  }
+  //setState takes a second argument, which is a callback function (not typically used, probably don't use)
+  const questionType = determineQuestionTypeFromCardData(cardOne, cardTwo);
+  return (
+    <div className="game-board">
+      <DealerHand {...{ card: dealerCard }} />
+      <PlayerHand
+        {...{
+          cardOne,
+          cardTwo
+        }}
+      />
+      <ScoreDisplay
+        {...{
+          totalScore,
+          totalQuestionCount
+        }}
+      />
+      <QuestionType
+        {...{
+          questionType,
+          checkIfCorrect,
+        }}
+      />
+    </div>
+  );
 }
